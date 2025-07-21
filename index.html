@@ -8,91 +8,118 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* * ==============================================
+         * CSS Variables for Theming
+         * ==============================================
+         */
         :root {
-            --dark-red: #6a1a1a;
-            --light-red: #a93226;
-            --cream: #f5efde;
-            --dark-blue: #1b3f5f;
-            --light-blue: #6c93b9;
-            --light-grey: #e0e0e0;
+            /* Light Theme Colors */
+            --light-bg: #f7f7f7;
+            --light-surface: #ffffff;
+            --light-border: #e0e0e0;
+            --light-text-header: #1b3f5f;
+            --light-text-body: #333333;
+            --light-text-subtle: #555555;
+            --light-primary: #1b3f5f;
+            --light-secondary: #6c93b9;
+            --light-accent: #a93226;
+            --light-button-secondary-bg: #e2e8f0;
+            --light-error-bg: #ffebee;
+            --light-error-text: #c62828;
+
+            /* Dark Theme Colors */
+            --dark-bg: #1a202c;
+            --dark-surface: #2d3748;
+            --dark-border: #4a5568;
+            --dark-text-header: #e2e8f0;
+            --dark-text-body: #cbd5e0;
+            --dark-text-subtle: #a0aec0;
+            --dark-primary: #6c93b9;
+            --dark-secondary: #a93226;
+            --dark-accent: #f5efde;
+            --dark-button-secondary-bg: #4a5568;
+            --dark-error-bg: #4a1d1d;
+            --dark-error-text: #ffcdd2;
         }
 
+        /* * ==============================================
+         * Base & Theming Styles
+         * ==============================================
+         */
         body {
             font-family: 'Inter', sans-serif;
-            overflow: hidden;
-            color: var(--cream);
+            transition: background-color 0.3s, color 0.3s;
         }
+        
+        /* Light Theme */
+        body.theme-light {
+            background-color: var(--light-bg);
+            color: var(--light-text-body);
+        }
+        body.theme-light .main-container {
+            background-color: var(--light-surface);
+            border: 1px solid var(--light-border);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        body.theme-light .header-text { color: var(--light-text-header); }
+        body.theme-light .subheader-text, body.theme-light .label-text { color: var(--light-text-subtle); }
+        body.theme-light .input-field {
+            background-color: var(--light-surface);
+            border-color: var(--light-border);
+            color: var(--light-text-body);
+            --tw-ring-color: var(--light-primary);
+        }
+        body.theme-light .secondary-button {
+            background-color: var(--light-button-secondary-bg);
+            color: var(--light-text-body);
+        }
+        body.theme-light .primary-button { background-color: var(--light-primary); color: white; }
+        body.theme-light .error-box { background-color: var(--light-error-bg); color: var(--light-error-text); }
+        body.theme-light .result-card { background-color: var(--light-bg); border-color: var(--light-border); }
+        body.theme-light .gc-text { color: var(--light-secondary); }
+        body.theme-light .cai-text { color: var(--light-accent); }
+        body.theme-light #theme-toggle { color: var(--light-text-header); }
 
-        /* Animated Background */
-        .background-animation {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: linear-gradient(45deg, var(--dark-blue), var(--light-blue), var(--dark-red));
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
+        /* Dark Theme */
+        body.theme-dark {
+            background-color: var(--dark-bg);
+            color: var(--dark-text-body);
         }
+        body.theme-dark .main-container {
+            background-color: var(--dark-surface);
+            border: 1px solid var(--dark-border);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        body.theme-dark .header-text { color: var(--dark-text-header); }
+        body.theme-dark .subheader-text, body.theme-dark .label-text { color: var(--dark-text-subtle); }
+        body.theme-dark .input-field {
+            background-color: var(--dark-bg);
+            border-color: var(--dark-border);
+            color: var(--dark-text-body);
+            --tw-ring-color: var(--dark-primary);
+        }
+        body.theme-dark .secondary-button {
+            background-color: var(--dark-button-secondary-bg);
+            color: var(--dark-text-header);
+        }
+        body.theme-dark .primary-button { background-color: var(--dark-primary); color: var(--dark-bg); }
+        body.theme-dark .error-box { background-color: var(--dark-error-bg); color: var(--dark-error-text); }
+        body.theme-dark .result-card { background-color: var(--dark-surface); border-color: var(--dark-border); }
+        body.theme-dark .gc-text { color: var(--dark-primary); }
+        body.theme-dark .cai-text { color: var(--dark-secondary); }
+        body.theme-dark #theme-toggle { color: var(--dark-text-header); }
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        /* * ==============================================
+         * Component Styles
+         * ==============================================
+         */
+        .main-container {
+            transition: background-color 0.3s, border-color 0.3s;
+            max-height: 95vh;
+            overflow-y: auto;
         }
-
-        .dna-strand {
-            position: absolute;
-            width: 2px;
-            height: 100%;
-            background: rgba(245, 239, 222, 0.1);
-            border-radius: 50%;
-            animation: float 20s infinite linear;
-        }
-
-        .dna-strand::before, .dna-strand::after {
-            content: '';
-            position: absolute;
-            width: 10px;
-            height: 2px;
-            background: rgba(245, 239, 222, 0.15);
-        }
-
-        .dna-strand::before {
-            left: -4px;
-            animation: twist-left 2s infinite linear;
-        }
-
-        .dna-strand::after {
-            right: -4px;
-            animation: twist-right 2s infinite linear;
-        }
-
-        @keyframes float {
-            from { transform: translateY(-100%); }
-            to { transform: translateY(100vh); }
-        }
-
-        @keyframes twist-left {
-            from { transform: translateY(-20px) rotate(0deg); }
-            to { transform: translateY(20px) rotate(360deg); }
-        }
-        @keyframes twist-right {
-            from { transform: translateY(20px) rotate(0deg); }
-            to { transform: translateY(-20px) rotate(-360deg); }
-        }
-
-        /* Main container with glass effect */
-        .glass-container {
-            background: rgba(27, 63, 95, 0.25);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(245, 239, 222, 0.15);
-        }
-
-        /* Result card animation */
         .result-card {
-            background: rgba(27, 63, 95, 0.4);
+            border: 1px solid;
             transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
             transform: scale(0.95) translateY(20px);
             opacity: 0;
@@ -101,47 +128,55 @@
             transform: scale(1) translateY(0);
             opacity: 1;
         }
+
+        /* Custom scrollbar */
+        .main-container::-webkit-scrollbar { width: 8px; }
+        body.theme-light .main-container::-webkit-scrollbar-track { background: #f1f1f1; }
+        body.theme-light .main-container::-webkit-scrollbar-thumb { background: #cccccc; border-radius: 4px; }
+        body.theme-light .main-container::-webkit-scrollbar-thumb:hover { background: #aaaaaa; }
+        
+        body.theme-dark .main-container::-webkit-scrollbar-track { background: var(--dark-bg); }
+        body.theme-dark .main-container::-webkit-scrollbar-thumb { background: var(--dark-border); border-radius: 4px; }
+        body.theme-dark .main-container::-webkit-scrollbar-thumb:hover { background: #718096; }
+
     </style>
 </head>
 <body class="min-h-screen flex items-center justify-center p-4">
     
-    <!-- Animated Background -->
-    <div class="background-animation">
-        <div class="dna-strand" style="left: 10%; animation-duration: 25s;"></div>
-        <div class="dna-strand" style="left: 20%; animation-duration: 18s; animation-delay: -5s;"></div>
-        <div class="dna-strand" style="left: 50%; animation-duration: 22s; animation-delay: -10s;"></div>
-        <div class="dna-strand" style="left: 80%; animation-duration: 15s; animation-delay: -2s;"></div>
-        <div class="dna-strand" style="left: 90%; animation-duration: 28s; animation-delay: -15s;"></div>
-    </div>
-
-    <div class="w-full max-w-3xl mx-auto glass-container rounded-2xl shadow-2xl p-6 md:p-8">
+    <div class="w-full max-w-3xl mx-auto main-container rounded-lg p-6 md:p-8">
         
         <!-- Header -->
-        <div class="text-center mb-6">
-            <h1 class="text-3xl md:text-4xl font-bold" style="color: var(--cream);">Sequence Analysis Tool</h1>
-            <p style="color: var(--light-grey);" class="mt-2">Calculate GC Content & Codon Adaptation Index (CAI)</p>
+        <div class="relative text-center mb-8 border-b pb-4">
+            <h1 class="text-3xl md:text-4xl font-bold header-text">Sequence Analysis Tool</h1>
+            <p class="mt-2 subheader-text">GC Content & Codon Adaptation Index Calculator</p>
+            <!-- Theme Switcher -->
+            <div class="absolute top-0 right-0">
+                <button id="theme-toggle" class="p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2" aria-label="Toggle theme">
+                    <i id="theme-icon" class="fas fa-moon text-xl"></i>
+                </button>
+            </div>
         </div>
 
         <!-- Input Section -->
         <div>
-            <label for="sequence" class="block text-sm font-medium mb-2" style="color: var(--light-grey);">Enter mRNA Sequence (FASTA or raw)</label>
-            <textarea id="sequence" rows="10" class="w-full p-4 border rounded-lg placeholder-gray-400 focus:ring-2 transition duration-150" style="background-color: rgba(27, 63, 95, 0.5); border-color: var(--light-blue); color: var(--cream); --tw-ring-color: var(--light-red);"></textarea>
+            <label for="sequence" class="block text-sm font-medium mb-2 label-text">Enter Sequence (FASTA or Raw)</label>
+            <textarea id="sequence" rows="10" class="w-full p-4 border rounded-lg placeholder-gray-400 focus:ring-2 transition duration-150 input-field"></textarea>
         </div>
 
         <!-- Conversion Buttons -->
         <div class="mt-4 flex justify-center space-x-4">
-            <button id="toDnaBtn" class="font-semibold py-2 px-4 rounded-lg transition-colors duration-200 flex items-center space-x-2" style="background-color: var(--light-blue); color: var(--dark-blue);">
+            <button id="toDnaBtn" class="font-semibold py-2 px-4 rounded-lg transition-colors duration-200 flex items-center space-x-2 secondary-button">
                 <i class="fas fa-dna"></i><span>Convert to DNA (T)</span>
             </button>
-            <button id="toRnaBtn" class="font-semibold py-2 px-4 rounded-lg transition-colors duration-200 flex items-center space-x-2" style="background-color: var(--light-blue); color: var(--dark-blue);">
+            <button id="toRnaBtn" class="font-semibold py-2 px-4 rounded-lg transition-colors duration-200 flex items-center space-x-2 secondary-button">
                 <i class="fas fa-vial-virus"></i><span>Convert to RNA (U)</span>
             </button>
         </div>
 
         <!-- Options Section -->
         <div class="mt-6">
-            <label for="organism" class="block text-sm font-medium mb-2" style="color: var(--light-grey);">Select Organism for CAI Calculation</label>
-            <select id="organism" class="w-full p-3 border rounded-lg focus:ring-2 transition duration-150" style="background-color: rgba(27, 63, 95, 0.5); border-color: var(--light-blue); color: var(--cream); --tw-ring-color: var(--light-red);">
+            <label for="organism" class="block text-sm font-medium mb-2 label-text">Reference Organism for CAI</label>
+            <select id="organism" class="w-full p-3 border rounded-lg focus:ring-2 transition duration-150 input-field">
                 <option value="human">Human (Homo sapiens)</option>
                 <option value="ecoli">E. coli (Escherichia coli)</option>
                 <option value="yeast">Yeast (Saccharomyces cerevisiae)</option>
@@ -150,206 +185,188 @@
 
         <!-- Action Button -->
         <div class="mt-8 text-center">
-            <button id="calculateBtn" class="text-white font-bold py-3 px-8 rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300 ease-in-out" style="background-color: var(--light-red); color: var(--cream);">
+            <button id="calculateBtn" class="font-bold py-3 px-8 rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-300 ease-in-out primary-button">
                 Analyze Sequence
             </button>
         </div>
 
         <!-- Error Message Area -->
-        <div id="error-message" class="mt-6 p-4 rounded-lg hidden" style="background-color: var(--dark-red); color: var(--cream);"></div>
+        <div id="error-message" class="mt-6 p-4 rounded-lg hidden error-box"></div>
 
         <!-- Results Section -->
         <div id="results" class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- GC Content Card -->
-            <div id="gc-card" class="result-card p-6 rounded-xl shadow-md">
-                <h3 class="text-lg font-semibold" style="color: var(--cream);">GC Content</h3>
-                <p id="gc-result" class="text-4xl font-bold mt-2" style="color: var(--light-blue);">0.00%</p>
-                <p class="text-sm mt-1" style="color: var(--light-grey);">Percentage of Guanine and Cytosine</p>
+            <div id="gc-card" class="result-card p-6 rounded-lg">
+                <h3 class="text-lg font-semibold header-text">GC Content</h3>
+                <p id="gc-result" class="text-4xl font-bold mt-2 gc-text">0.00%</p>
+                <p class="text-sm mt-1 subheader-text">Guanine & Cytosine Percentage</p>
             </div>
             <!-- CAI Card -->
-            <div id="cai-card" class="result-card p-6 rounded-xl shadow-md">
-                <h3 class="text-lg font-semibold" style="color: var(--cream);">Codon Adaptation Index (CAI)</h3>
-                <p id="cai-result" class="text-4xl font-bold mt-2" style="color: var(--light-red);">0.000</p>
-                <p id="cai-organism" class="text-sm mt-1" style="color: var(--light-grey);">Relative to Human</p>
+            <div id="cai-card" class="result-card p-6 rounded-lg">
+                <h3 class="text-lg font-semibold header-text">Codon Adaptation Index (CAI)</h3>
+                <p id="cai-result" class="text-4xl font-bold mt-2 cai-text">0.000</p>
+                <p id="cai-organism" class="text-sm mt-1 subheader-text">Relative to Human</p>
             </div>
         </div>
     </div>
 
     <script>
-        // --- DATA ---
-        // Codon to Amino Acid Mapping
-        const codonToAA = {
-            'TTT': 'F', 'TTC': 'F', 'TTA': 'L', 'TTG': 'L', 'CTT': 'L', 'CTC': 'L', 'CTA': 'L', 'CTG': 'L',
-            'ATT': 'I', 'ATC': 'I', 'ATA': 'I', 'ATG': 'M', 'GTT': 'V', 'GTC': 'V', 'GTA': 'V', 'GTG': 'V',
-            'TCT': 'S', 'TCC': 'S', 'TCA': 'S', 'TCG': 'S', 'CCT': 'P', 'CCC': 'P', 'CCA': 'P', 'CCG': 'P',
-            'ACT': 'T', 'ACC': 'T', 'ACA': 'T', 'ACG': 'T', 'GCT': 'A', 'GCC': 'A', 'GCA': 'A', 'GCG': 'A',
-            'TAT': 'Y', 'TAC': 'Y', 'TAA': '*', 'TAG': '*', 'CAT': 'H', 'CAC': 'H', 'CAA': 'Q', 'CAG': 'Q',
-            'AAT': 'N', 'AAC': 'N', 'AAA': 'K', 'AAG': 'K', 'GAT': 'D', 'GAC': 'D', 'GAA': 'E', 'GAG': 'E',
-            'TGT': 'C', 'TGC': 'C', 'TGA': '*', 'TGG': 'W', 'CGT': 'R', 'CGC': 'R', 'CGA': 'R', 'CGG': 'R',
-            'AGT': 'S', 'AGC': 'S', 'AGA': 'R', 'AGG': 'R', 'GGT': 'G', 'GGC': 'G', 'GGA': 'G', 'GGG': 'G'
-        };
+        // ==============================================
+        // App Initialization
+        // ==============================================
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- DOM Elements ---
+            const dom = {
+                themeToggle: document.getElementById('theme-toggle'),
+                themeIcon: document.getElementById('theme-icon'),
+                body: document.body,
+                sequenceInput: document.getElementById('sequence'),
+                calculateBtn: document.getElementById('calculateBtn'),
+                toDnaBtn: document.getElementById('toDnaBtn'),
+                toRnaBtn: document.getElementById('toRnaBtn'),
+                organismSelect: document.getElementById('organism'),
+                gcResultEl: document.getElementById('gc-result'),
+                caiResultEl: document.getElementById('cai-result'),
+                caiOrganismEl: document.getElementById('cai-organism'),
+                errorMessageEl: document.getElementById('error-message'),
+                gcCard: document.getElementById('gc-card'),
+                caiCard: document.getElementById('cai-card')
+            };
 
-        // Codon Usage Frequency Tables (Relative Frequencies)
-        const codonUsageTables = {
-            human: {'TTT': 0.46, 'TTC': 0.54, 'TTA': 0.07, 'TTG': 0.13, 'CTT': 0.13, 'CTC': 0.20, 'CTA': 0.07, 'CTG': 0.40, 'ATT': 0.36, 'ATC': 0.47, 'ATA': 0.17, 'ATG': 1.00, 'GTT': 0.18, 'GTC': 0.24, 'GTA': 0.12, 'GTG': 0.46, 'TCT': 0.18, 'TCC': 0.23, 'TCA': 0.15, 'TCG': 0.10, 'CCT': 0.18, 'CCC': 0.20, 'CCA': 0.17, 'CCG': 0.45, 'ACT': 0.14, 'ACC': 0.36, 'ACA': 0.28, 'ACG': 0.22, 'GCT': 0.18, 'GCC': 0.37, 'GCA': 0.21, 'GCG': 0.24, 'TAT': 0.44, 'TAC': 0.56, 'TAA': 0.30, 'TAG': 0.24, 'CAT': 0.43, 'CAC': 0.57, 'CAA': 0.27, 'CAG': 0.73, 'AAT': 0.47, 'AAC': 0.53, 'AAA': 0.42, 'AAG': 0.58, 'GAT': 0.46, 'GAC': 0.54, 'GAA': 0.42, 'GAG': 0.58, 'TGT': 0.46, 'TGC': 0.54, 'TGA': 0.47, 'TGG': 1.00, 'CGT': 0.08, 'CGC': 0.21, 'CGA': 0.11, 'CGG': 0.20, 'AGT': 0.15, 'AGC': 0.24, 'AGA': 0.20, 'AGG': 0.21, 'GGT': 0.16, 'GGC': 0.34, 'GGA': 0.25, 'GGG': 0.25},
-            ecoli: {'TTT': 0.58, 'TTC': 0.42, 'TTA': 0.14, 'TTG': 0.13, 'CTT': 0.12, 'CTC': 0.10, 'CTA': 0.04, 'CTG': 0.47, 'ATT': 0.49, 'ATC': 0.39, 'ATA': 0.11, 'ATG': 1.00, 'GTT': 0.28, 'GTC': 0.20, 'GTA': 0.15, 'GTG': 0.37, 'TCT': 0.17, 'TCC': 0.15, 'TCA': 0.14, 'TCG': 0.14, 'CCT': 0.18, 'CCC': 0.13, 'CCA': 0.20, 'CCG': 0.36, 'ACT': 0.19, 'ACC': 0.40, 'ACA': 0.17, 'ACG': 0.25, 'GCT': 0.18, 'GCC': 0.26, 'GCA': 0.23, 'GCG': 0.33, 'TAT': 0.59, 'TAC': 0.41, 'TAA': 0.61, 'TAG': 0.09, 'CAT': 0.57, 'CAC': 0.43, 'CAA': 0.34, 'CAG': 0.66, 'AAT': 0.49, 'AAC': 0.51, 'AAA': 0.74, 'AAG': 0.26, 'GAT': 0.63, 'GAC': 0.37, 'GAA': 0.68, 'GAG': 0.32, 'TGT': 0.46, 'TGC': 0.54, 'TGA': 0.30, 'TGG': 1.00, 'CGT': 0.36, 'CGC': 0.36, 'CGA': 0.07, 'CGG': 0.11, 'AGT': 0.16, 'AGC': 0.25, 'AGA': 0.07, 'AGG': 0.04, 'GGT': 0.35, 'GGC': 0.37, 'GGA': 0.13, 'GGG': 0.15},
-            yeast: {'TTT': 0.56, 'TTC': 0.44, 'TTA': 0.23, 'TTG': 0.29, 'CTT': 0.13, 'CTC': 0.06, 'CTA': 0.14, 'CTG': 0.12, 'ATT': 0.47, 'ATC': 0.26, 'ATA': 0.27, 'ATG': 1.00, 'GTT': 0.35, 'GTC': 0.20, 'GTA': 0.12, 'GTG': 0.33, 'TCT': 0.26, 'TCC': 0.17, 'TCA': 0.21, 'TCG': 0.08, 'CCT': 0.26, 'CCC': 0.10, 'CCA': 0.41, 'CCG': 0.07, 'ACT': 0.31, 'ACC': 0.25, 'ACA': 0.28, 'ACG': 0.16, 'GCT': 0.37, 'GCC': 0.24, 'GCA': 0.29, 'GCG': 0.10, 'TAT': 0.56, 'TAC': 0.44, 'TAA': 0.47, 'TAG': 0.20, 'CAT': 0.64, 'CAC': 0.36, 'CAA': 0.69, 'CAG': 0.31, 'AAT': 0.59, 'AAC': 0.41, 'AAA': 0.58, 'AAG': 0.42, 'GAT': 0.65, 'GAC': 0.35, 'GAA': 0.71, 'GAG': 0.29, 'TGT': 0.61, 'TGC': 0.39, 'TGA': 0.33, 'TGG': 1.00, 'CGT': 0.07, 'CGC': 0.04, 'CGA': 0.07, 'CGG': 0.04, 'AGT': 0.15, 'AGC': 0.12, 'AGA': 0.48, 'AGG': 0.21, 'GGT': 0.40, 'GGC': 0.23, 'GGA': 0.24, 'GGG': 0.13}
-        };
-
-        // --- DOM Elements ---
-        const sequenceInput = document.getElementById('sequence');
-        const calculateBtn = document.getElementById('calculateBtn');
-        const toDnaBtn = document.getElementById('toDnaBtn');
-        const toRnaBtn = document.getElementById('toRnaBtn');
-        const organismSelect = document.getElementById('organism');
-        const gcResultEl = document.getElementById('gc-result');
-        const caiResultEl = document.getElementById('cai-result');
-        const caiOrganismEl = document.getElementById('cai-organism');
-        const errorMessageEl = document.getElementById('error-message');
-        const gcCard = document.getElementById('gc-card');
-        const caiCard = document.getElementById('cai-card');
-
-        // --- Pre-computation ---
-        const relativeAdaptiveness = {};
-        for (const organism in codonUsageTables) {
-            const usage = codonUsageTables[organism];
-            const maxFreqPerAA = {};
-            const aaToCodons = {};
-            for (const codon in usage) {
-                const aa = codonToAA[codon];
-                if (!aa) continue;
-                if (!maxFreqPerAA[aa]) {
-                    maxFreqPerAA[aa] = 0;
-                    aaToCodons[aa] = [];
+            // --- Codon & Amino Acid Data ---
+            const codonToAA = {'TTT':'F','TTC':'F','TTA':'L','TTG':'L','CTT':'L','CTC':'L','CTA':'L','CTG':'L','ATT':'I','ATC':'I','ATA':'I','ATG':'M','GTT':'V','GTC':'V','GTA':'V','GTG':'V','TCT':'S','TCC':'S','TCA':'S','TCG':'S','CCT':'P','CCC':'P','CCA':'P','CCG':'P','ACT':'T','ACC':'T','ACA':'T','ACG':'T','GCT':'A','GCC':'A','GCA':'A','GCG':'A','TAT':'Y','TAC':'Y','TAA':'*','TAG':'*','CAT':'H','CAC':'H','CAA':'Q','CAG':'Q','AAT':'N','AAC':'N','AAA':'K','AAG':'K','GAT':'D','GAC':'D','GAA':'E','GAG':'E','TGT':'C','TGC':'C','TGA':'*','TGG':'W','CGT':'R','CGC':'R','CGA':'R','CGG':'R','AGT':'S','AGC':'S','AGA':'R','AGG':'R','GGT':'G','GGC':'G','GGA':'G','GGG':'G'};
+            const codonUsageTables = {
+                human: {'TTT':0.46,'TTC':0.54,'TTA':0.07,'TTG':0.13,'CTT':0.13,'CTC':0.2,'CTA':0.07,'CTG':0.4,'ATT':0.36,'ATC':0.47,'ATA':0.17,'ATG':1,'GTT':0.18,'GTC':0.24,'GTA':0.12,'GTG':0.46,'TCT':0.18,'TCC':0.23,'TCA':0.15,'TCG':0.1,'CCT':0.18,'CCC':0.2,'CCA':0.17,'CCG':0.45,'ACT':0.14,'ACC':0.36,'ACA':0.28,'ACG':0.22,'GCT':0.18,'GCC':0.37,'GCA':0.21,'GCG':0.24,'TAT':0.44,'TAC':0.56,'TAA':0.3,'TAG':0.24,'CAT':0.43,'CAC':0.57,'CAA':0.27,'CAG':0.73,'AAT':0.47,'AAC':0.53,'AAA':0.42,'AAG':0.58,'GAT':0.46,'GAC':0.54,'GAA':0.42,'GAG':0.58,'TGT':0.46,'TGC':0.54,'TGA':0.47,'TGG':1,'CGT':0.08,'CGC':0.21,'CGA':0.11,'CGG':0.2,'AGT':0.15,'AGC':0.24,'AGA':0.2,'AGG':0.21,'GGT':0.16,'GGC':0.34,'GGA':0.25,'GGG':0.25},
+                ecoli: {'TTT':0.58,'TTC':0.42,'TTA':0.14,'TTG':0.13,'CTT':0.12,'CTC':0.1,'CTA':0.04,'CTG':0.47,'ATT':0.49,'ATC':0.39,'ATA':0.11,'ATG':1,'GTT':0.28,'GTC':0.2,'GTA':0.15,'GTG':0.37,'TCT':0.17,'TCC':0.15,'TCA':0.14,'TCG':0.14,'CCT':0.18,'CCC':0.13,'CCA':0.2,'CCG':0.36,'ACT':0.19,'ACC':0.4,'ACA':0.17,'ACG':0.25,'GCT':0.18,'GCC':0.26,'GCA':0.23,'GCG':0.33,'TAT':0.59,'TAC':0.41,'TAA':0.61,'TAG':0.09,'CAT':0.57,'CAC':0.43,'CAA':0.34,'CAG':0.66,'AAT':0.49,'AAC':0.51,'AAA':0.74,'AAG':0.26,'GAT':0.63,'GAC':0.37,'GAA':0.68,'GAG':0.32,'TGT':0.46,'TGC':0.54,'TGA':0.3,'TGG':1,'CGT':0.36,'CGC':0.36,'CGA':0.07,'CGG':0.11,'AGT':0.16,'AGC':0.25,'AGA':0.07,'AGG':0.04,'GGT':0.35,'GGC':0.37,'GGA':0.13,'GGG':0.15},
+                yeast: {'TTT':0.56,'TTC':0.44,'TTA':0.23,'TTG':0.29,'CTT':0.13,'CTC':0.06,'CTA':0.14,'CTG':0.12,'ATT':0.47,'ATC':0.26,'ATA':0.27,'ATG':1,'GTT':0.35,'GTC':0.2,'GTA':0.12,'GTG':0.33,'TCT':0.26,'TCC':0.17,'TCA':0.21,'TCG':0.08,'CCT':0.26,'CCC':0.1,'CCA':0.41,'CCG':0.07,'ACT':0.31,'ACC':0.25,'ACA':0.28,'ACG':0.16,'GCT':0.37,'GCC':0.24,'GCA':0.29,'GCG':0.1,'TAT':0.56,'TAC':0.44,'TAA':0.47,'TAG':0.2,'CAT':0.64,'CAC':0.36,'CAA':0.69,'CAG':0.31,'AAT':0.59,'AAC':0.41,'AAA':0.58,'AAG':0.42,'GAT':0.65,'GAC':0.35,'GAA':0.71,'GAG':0.29,'TGT':0.61,'TGC':0.39,'TGA':0.33,'TGG':1,'CGT':0.07,'CGC':0.04,'CGA':0.07,'CGG':0.04,'AGT':0.15,'AGC':0.12,'AGA':0.48,'AGG':0.21,'GGT':0.4,'GGC':0.23,'GGA':0.24,'GGG':0.13}
+            };
+            
+            // --- Pre-computation for CAI ---
+            const relativeAdaptiveness = {};
+            for (const organism in codonUsageTables) {
+                const usage = codonUsageTables[organism];
+                const maxFreqPerAA = {};
+                const aaToCodons = {};
+                for (const codon in usage) {
+                    const aa = codonToAA[codon];
+                    if (!aa) continue;
+                    if (!maxFreqPerAA[aa]) { maxFreqPerAA[aa] = 0; aaToCodons[aa] = []; }
+                    aaToCodons[aa].push(codon);
+                    if (usage[codon] > maxFreqPerAA[aa]) { maxFreqPerAA[aa] = usage[codon]; }
                 }
-                aaToCodons[aa].push(codon);
-                if (usage[codon] > maxFreqPerAA[aa]) {
-                    maxFreqPerAA[aa] = usage[codon];
-                }
-            }
-            relativeAdaptiveness[organism] = {};
-            for (const aa in aaToCodons) {
-                for (const codon of aaToCodons[aa]) {
-                    if (maxFreqPerAA[aa] > 0) {
-                        relativeAdaptiveness[organism][codon] = usage[codon] / maxFreqPerAA[aa];
-                    } else {
-                        relativeAdaptiveness[organism][codon] = 0;
+                relativeAdaptiveness[organism] = {};
+                for (const aa in aaToCodons) {
+                    for (const codon of aaToCodons[aa]) {
+                        relativeAdaptiveness[organism][codon] = (maxFreqPerAA[aa] > 0) ? usage[codon] / maxFreqPerAA[aa] : 0;
                     }
                 }
             }
-        }
 
-        // --- Functions ---
-        function convertToDNA() {
-            const currentSeq = sequenceInput.value;
-            sequenceInput.value = currentSeq.toUpperCase().replace(/U/g, 'T');
-        }
+            // ==============================================
+            // Theme Management
+            // ==============================================
+            const applyTheme = (theme) => {
+                dom.body.className = `min-h-screen flex items-center justify-center p-4 theme-${theme}`;
+                dom.themeIcon.className = `fas text-xl ${theme === 'dark' ? 'fa-sun' : 'fa-moon'}`;
+                dom.themeToggle.setAttribute('aria-label', `Activate ${theme === 'dark' ? 'light' : 'dark'} mode`);
+                localStorage.setItem('theme', theme);
+            };
 
-        function convertToRNA() {
-            const currentSeq = sequenceInput.value;
-            sequenceInput.value = currentSeq.toUpperCase().replace(/T/g, 'U');
-        }
+            dom.themeToggle.addEventListener('click', () => {
+                const currentTheme = localStorage.getItem('theme') || 'light';
+                applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
+            });
 
-        function cleanAndValidateSequence(rawSeq) {
-            let seq = rawSeq.startsWith('>') ? rawSeq.split('\n').slice(1).join('') : rawSeq;
-            seq = seq.replace(/\s/g, '').toUpperCase();
-            if (!seq) {
-                showError("Sequence input is empty.");
-                return null;
-            }
-            if (/[^ATGCU]/.test(seq)) {
-                showError("Sequence contains invalid characters. Only A, T, G, C, U are allowed.");
-                return null;
-            }
-            return seq.replace(/U/g, 'T');
-        }
+            // ==============================================
+            // Core Functions
+            // ==============================================
+            const convertToDNA = () => { dom.sequenceInput.value = dom.sequenceInput.value.toUpperCase().replace(/U/g, 'T'); };
+            const convertToRNA = () => { dom.sequenceInput.value = dom.sequenceInput.value.toUpperCase().replace(/T/g, 'U'); };
 
-        function calculateGCContent(seq) {
-            if (!seq) return 0;
-            const gcCount = (seq.match(/[GC]/g) || []).length;
-            return (gcCount / seq.length) * 100;
-        }
+            const cleanAndValidateSequence = (rawSeq) => {
+                let seq = rawSeq.startsWith('>') ? rawSeq.split('\n').slice(1).join('') : rawSeq;
+                seq = seq.replace(/\s/g, '').toUpperCase();
+                if (!seq) { showError("Sequence input is empty."); return null; }
+                if (/[^ATGCU]/.test(seq)) { showError("Sequence contains invalid characters. Only A, T, G, C, U are allowed."); return null; }
+                return seq.replace(/U/g, 'T');
+            };
 
-        function calculateCAI(seq, organism) {
-            const w_table = relativeAdaptiveness[organism];
-            const codons = [];
-            const startIndex = seq.indexOf('ATG');
-            if (startIndex === -1) {
-                showError("No start codon (ATG) found in the sequence.");
-                return null;
-            }
-            for (let i = startIndex; i < seq.length - 2; i += 3) {
-                const codon = seq.substring(i, i + 3);
-                if (codon.length !== 3) continue;
-                const aa = codonToAA[codon];
-                if (aa === '*') break;
-                if (aa !== 'M' && aa !== 'W') {
-                    codons.push(codon);
+            const calculateGCContent = (seq) => {
+                if (!seq) return 0;
+                const gcCount = (seq.match(/[GC]/g) || []).length;
+                return (gcCount / seq.length) * 100;
+            };
+
+            const calculateCAI = (seq, organism) => {
+                const w_table = relativeAdaptiveness[organism];
+                const codons = [];
+                const startIndex = seq.indexOf('ATG');
+                if (startIndex === -1) { showError("No start codon (ATG) found in the sequence."); return null; }
+                for (let i = startIndex; i < seq.length - 2; i += 3) {
+                    const codon = seq.substring(i, i + 3);
+                    if (codon.length !== 3) continue;
+                    const aa = codonToAA[codon];
+                    if (aa === '*') break;
+                    if (aa !== 'M' && aa !== 'W') codons.push(codon);
                 }
-            }
-            if (codons.length === 0) {
-                showError("No valid codons found for CAI calculation (after excluding start/stop/Met/Trp).");
-                return null;
-            }
-            let logSum = 0;
-            for (const codon of codons) {
-                const w = w_table[codon];
-                if (w > 0) {
-                    logSum += Math.log(w);
-                } else {
-                    console.warn(`Codon ${codon} has a relative adaptiveness of 0.`);
+                if (codons.length === 0) { showError("No valid codons found for CAI calculation (after excluding start/stop/Met/Trp)."); return null; }
+                let logSum = 0;
+                for (const codon of codons) {
+                    const w = w_table[codon];
+                    if (w > 0) logSum += Math.log(w);
+                    else console.warn(`Codon ${codon} has a relative adaptiveness of 0.`);
                 }
-            }
-            return Math.exp(logSum / codons.length);
-        }
+                return Math.exp(logSum / codons.length);
+            };
 
-        function showError(message) {
-            errorMessageEl.textContent = message;
-            errorMessageEl.classList.remove('hidden');
-            gcCard.classList.remove('visible');
-            caiCard.classList.remove('visible');
-        }
+            const showError = (message) => {
+                dom.errorMessageEl.textContent = message;
+                dom.errorMessageEl.classList.remove('hidden');
+                dom.gcCard.classList.remove('visible');
+                dom.caiCard.classList.remove('visible');
+            };
 
-        function hideError() {
-            errorMessageEl.classList.add('hidden');
-        }
+            const hideError = () => { dom.errorMessageEl.classList.add('hidden'); };
 
-        function handleAnalysis() {
-            hideError();
+            const handleAnalysis = () => {
+                hideError();
+                dom.gcCard.classList.remove('visible');
+                dom.caiCard.classList.remove('visible');
+                const rawSequence = dom.sequenceInput.value;
+                const sequence = cleanAndValidateSequence(rawSequence);
+                if (!sequence) return;
+                const selectedOrganism = dom.organismSelect.value;
+                setTimeout(() => {
+                    const gcContent = calculateGCContent(sequence);
+                    dom.gcResultEl.textContent = `${gcContent.toFixed(2)}%`;
+                    dom.gcCard.classList.add('visible');
+                    const caiValue = calculateCAI(sequence, selectedOrganism);
+                    if (caiValue !== null) {
+                        dom.caiResultEl.textContent = caiValue.toFixed(3);
+                        const organismName = dom.organismSelect.options[dom.organismSelect.selectedIndex].text;
+                        dom.caiOrganismEl.textContent = `Relative to ${organismName.split('(')[0].trim()}`;
+                        dom.caiCard.classList.add('visible');
+                    }
+                }, 300);
+            };
+
+            // ==============================================
+            // Event Listeners & Initialization
+            // ==============================================
+            dom.calculateBtn.addEventListener('click', handleAnalysis);
+            dom.toDnaBtn.addEventListener('click', convertToDNA);
+            dom.toRnaBtn.addEventListener('click', convertToRNA);
             
-            gcCard.classList.remove('visible');
-            caiCard.classList.remove('visible');
+            // --- Set Initial Theme ---
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            applyTheme(savedTheme || (prefersDark ? 'dark' : 'light'));
 
-            const rawSequence = sequenceInput.value;
-            const sequence = cleanAndValidateSequence(rawSequence);
-            
-            if (!sequence) return;
-            
-            const selectedOrganism = organismSelect.value;
-
-            setTimeout(() => {
-                const gcContent = calculateGCContent(sequence);
-                gcResultEl.textContent = `${gcContent.toFixed(2)}%`;
-                gcCard.classList.add('visible');
-
-                const caiValue = calculateCAI(sequence, selectedOrganism);
-                if (caiValue !== null) {
-                    caiResultEl.textContent = caiValue.toFixed(3);
-                    const organismName = organismSelect.options[organismSelect.selectedIndex].text;
-                    caiOrganismEl.textContent = `Relative to ${organismName.split('(')[0].trim()}`;
-                    caiCard.classList.add('visible');
-                }
-            }, 300);
-        }
-
-        // --- Event Listeners ---
-        calculateBtn.addEventListener('click', handleAnalysis);
-        toDnaBtn.addEventListener('click', convertToDNA);
-        toRnaBtn.addEventListener('click', convertToRNA);
-        
-        // --- Initial Example ---
-        sequenceInput.value = `atgttcagctttgtggacctccggctcctgctcctcttagcggccaccgccctcctgacgcacggccaagaggaaggccaagtcgagggccaagacgaagacatcccaccaatcacctgcgtacagaacggcctcaggtaccatgaccgagacgtgtggaaacccgagccctgccggatctgcgtctgcgacaacggcaaggtgttgtgcgatgacgtgatctgtgacgagaccaagaactgccccggcgccgaagtccccgagggcgagtgctgtcccgtctgccccgacggctcagagtcacccaccgaccaagaaaccaccggcgtcgagggacccaagggagacactggcccccgaggcccaaggggacccgcaggcccccctggccgagatggcatccctggacagcctggacttcccggaccccccggaccccccggacctcccggaccccctggcctcggaggaaactttgctccccagctgtcttatggctatgatgagaaatcaaccggaggaatttccgtgcctggccccatgggtccctctggtcctcgtggtctccctggcccccctggtgcacctggtccccaaggcttccaaggtccccctggtgagcctggcgagcctggagcttcaggtcccatgggtccccgaggtcccccaggtccccctggaaagaatggagatgatggggaagctggaaaacctggtcgtcctggtgagcgtgggcctcctgggcctcagggtgctcgaggattgcccggaacagctggcctccctggaatgaagggacacagaggtttcaTAA`;
-        handleAnalysis();
+            // --- Set Initial Example & Run ---
+            dom.sequenceInput.value = `atgttcagctttgtggacctccggctcctgctcctcttagcggccaccgccctcctgacgcacggccaagaggaaggccaagtcgagggccaagacgaagacatcccaccaatcacctgcgtacagaacggcctcaggtaccatgaccgagacgtgtggaaacccgagccctgccggatctgcgtctgcgacaacggcaaggtgttgtgcgatgacgtgatctgtgacgagaccaagaactgccccggcgccgaagtccccgagggcgagtgctgtcccgtctgccccgacggctcagagtcacccaccgaccaagaaaccaccggcgtcgagggacccaagggagacactggcccccgaggcccaaggggacccgcaggcccccctggccgagatggcatccctggacagcctggacttcccggaccccccggaccccccggacctcccggaccccctggcctcggaggaaactttgctccccagctgtcttatggctatgatgagaaatcaaccggaggaatttccgtgcctggccccatgggtccctctggtcctcgtggtctccctggcccccctggtgcacctggtccccaaggcttccaaggtccccctggtgagcctggcgagcctggagcttcaggtcccatgggtccccgaggtcccccaggtccccctggaaagaatggagatgatggggaagctggaaaacctggtcgtcctggtgagcgtgggcctcctgggcctcagggtgctcgaggattgcccggaacagctggcctccctggaatgaagggacacagaggtttcaTAA`;
+            handleAnalysis();
+        });
 
     </script>
 </body>
