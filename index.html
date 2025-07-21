@@ -6,40 +6,142 @@
     <title>Sequence Analysis Tool: GC Content & CAI Calculator</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --dark-red: #6a1a1a;
+            --light-red: #a93226;
+            --cream: #f5efde;
+            --dark-blue: #1b3f5f;
+            --light-blue: #6c93b9;
+            --light-grey: #e0e0e0;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
+            overflow: hidden;
+            color: var(--cream);
         }
+
+        /* Animated Background */
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(45deg, var(--dark-blue), var(--light-blue), var(--dark-red));
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .dna-strand {
+            position: absolute;
+            width: 2px;
+            height: 100%;
+            background: rgba(245, 239, 222, 0.1);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+
+        .dna-strand::before, .dna-strand::after {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 2px;
+            background: rgba(245, 239, 222, 0.15);
+        }
+
+        .dna-strand::before {
+            left: -4px;
+            animation: twist-left 2s infinite linear;
+        }
+
+        .dna-strand::after {
+            right: -4px;
+            animation: twist-right 2s infinite linear;
+        }
+
+        @keyframes float {
+            from { transform: translateY(-100%); }
+            to { transform: translateY(100vh); }
+        }
+
+        @keyframes twist-left {
+            from { transform: translateY(-20px) rotate(0deg); }
+            to { transform: translateY(20px) rotate(360deg); }
+        }
+        @keyframes twist-right {
+            from { transform: translateY(20px) rotate(0deg); }
+            to { transform: translateY(-20px) rotate(-360deg); }
+        }
+
+        /* Main container with glass effect */
+        .glass-container {
+            background: rgba(27, 63, 95, 0.25);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(245, 239, 222, 0.15);
+        }
+
+        /* Result card animation */
         .result-card {
-            transition: all 0.3s ease-in-out;
-            transform: translateY(20px);
+            background: rgba(27, 63, 95, 0.4);
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transform: scale(0.95) translateY(20px);
             opacity: 0;
         }
         .result-card.visible {
-            transform: translateY(0);
+            transform: scale(1) translateY(0);
             opacity: 1;
         }
     </style>
 </head>
-<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 min-h-screen flex items-center justify-center p-4">
-    <div class="w-full max-w-3xl mx-auto bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-6 md:p-8">
+<body class="min-h-screen flex items-center justify-center p-4">
+    
+    <!-- Animated Background -->
+    <div class="background-animation">
+        <div class="dna-strand" style="left: 10%; animation-duration: 25s;"></div>
+        <div class="dna-strand" style="left: 20%; animation-duration: 18s; animation-delay: -5s;"></div>
+        <div class="dna-strand" style="left: 50%; animation-duration: 22s; animation-delay: -10s;"></div>
+        <div class="dna-strand" style="left: 80%; animation-duration: 15s; animation-delay: -2s;"></div>
+        <div class="dna-strand" style="left: 90%; animation-duration: 28s; animation-delay: -15s;"></div>
+    </div>
+
+    <div class="w-full max-w-3xl mx-auto glass-container rounded-2xl shadow-2xl p-6 md:p-8">
         
         <!-- Header -->
         <div class="text-center mb-6">
-            <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">Sequence Analysis Tool</h1>
-            <p class="text-gray-600 dark:text-gray-400 mt-2">Calculate GC Content and Codon Adaptation Index (CAI)</p>
+            <h1 class="text-3xl md:text-4xl font-bold" style="color: var(--cream);">Sequence Analysis Tool</h1>
+            <p style="color: var(--light-grey);" class="mt-2">Calculate GC Content & Codon Adaptation Index (CAI)</p>
         </div>
 
         <!-- Input Section -->
         <div>
-            <label for="sequence" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Enter mRNA Sequence (FASTA or raw)</label>
-            <textarea id="sequence" rows="10" class="w-full p-4 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150" placeholder="Paste your sequence here... e.g., ATGTTCAGCTTTGTGGAC..."></textarea>
+            <label for="sequence" class="block text-sm font-medium mb-2" style="color: var(--light-grey);">Enter mRNA Sequence (FASTA or raw)</label>
+            <textarea id="sequence" rows="10" class="w-full p-4 border rounded-lg placeholder-gray-400 focus:ring-2 transition duration-150" style="background-color: rgba(27, 63, 95, 0.5); border-color: var(--light-blue); color: var(--cream); --tw-ring-color: var(--light-red);"></textarea>
+        </div>
+
+        <!-- Conversion Buttons -->
+        <div class="mt-4 flex justify-center space-x-4">
+            <button id="toDnaBtn" class="font-semibold py-2 px-4 rounded-lg transition-colors duration-200 flex items-center space-x-2" style="background-color: var(--light-blue); color: var(--dark-blue);">
+                <i class="fas fa-dna"></i><span>Convert to DNA (T)</span>
+            </button>
+            <button id="toRnaBtn" class="font-semibold py-2 px-4 rounded-lg transition-colors duration-200 flex items-center space-x-2" style="background-color: var(--light-blue); color: var(--dark-blue);">
+                <i class="fas fa-vial-virus"></i><span>Convert to RNA (U)</span>
+            </button>
         </div>
 
         <!-- Options Section -->
         <div class="mt-6">
-            <label for="organism" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Select Organism for CAI Calculation</label>
-            <select id="organism" class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150">
+            <label for="organism" class="block text-sm font-medium mb-2" style="color: var(--light-grey);">Select Organism for CAI Calculation</label>
+            <select id="organism" class="w-full p-3 border rounded-lg focus:ring-2 transition duration-150" style="background-color: rgba(27, 63, 95, 0.5); border-color: var(--light-blue); color: var(--cream); --tw-ring-color: var(--light-red);">
                 <option value="human">Human (Homo sapiens)</option>
                 <option value="ecoli">E. coli (Escherichia coli)</option>
                 <option value="yeast">Yeast (Saccharomyces cerevisiae)</option>
@@ -48,27 +150,27 @@
 
         <!-- Action Button -->
         <div class="mt-8 text-center">
-            <button id="calculateBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300 ease-in-out">
+            <button id="calculateBtn" class="text-white font-bold py-3 px-8 rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300 ease-in-out" style="background-color: var(--light-red); color: var(--cream);">
                 Analyze Sequence
             </button>
         </div>
 
         <!-- Error Message Area -->
-        <div id="error-message" class="mt-6 p-4 text-red-700 bg-red-100 dark:bg-red-900 dark:text-red-200 rounded-lg hidden"></div>
+        <div id="error-message" class="mt-6 p-4 rounded-lg hidden" style="background-color: var(--dark-red); color: var(--cream);"></div>
 
         <!-- Results Section -->
         <div id="results" class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- GC Content Card -->
-            <div id="gc-card" class="result-card bg-gray-50 dark:bg-gray-700 p-6 rounded-xl shadow-md">
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">GC Content</h3>
-                <p id="gc-result" class="text-4xl font-bold text-indigo-500 dark:text-indigo-400 mt-2">0.00%</p>
-                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Percentage of Guanine and Cytosine</p>
+            <div id="gc-card" class="result-card p-6 rounded-xl shadow-md">
+                <h3 class="text-lg font-semibold" style="color: var(--cream);">GC Content</h3>
+                <p id="gc-result" class="text-4xl font-bold mt-2" style="color: var(--light-blue);">0.00%</p>
+                <p class="text-sm mt-1" style="color: var(--light-grey);">Percentage of Guanine and Cytosine</p>
             </div>
             <!-- CAI Card -->
-            <div id="cai-card" class="result-card bg-gray-50 dark:bg-gray-700 p-6 rounded-xl shadow-md">
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Codon Adaptation Index (CAI)</h3>
-                <p id="cai-result" class="text-4xl font-bold text-teal-500 dark:text-teal-400 mt-2">0.000</p>
-                <p id="cai-organism" class="text-sm text-gray-500 dark:text-gray-400 mt-1">Relative to Human</p>
+            <div id="cai-card" class="result-card p-6 rounded-xl shadow-md">
+                <h3 class="text-lg font-semibold" style="color: var(--cream);">Codon Adaptation Index (CAI)</h3>
+                <p id="cai-result" class="text-4xl font-bold mt-2" style="color: var(--light-red);">0.000</p>
+                <p id="cai-organism" class="text-sm mt-1" style="color: var(--light-grey);">Relative to Human</p>
             </div>
         </div>
     </div>
@@ -97,6 +199,8 @@
         // --- DOM Elements ---
         const sequenceInput = document.getElementById('sequence');
         const calculateBtn = document.getElementById('calculateBtn');
+        const toDnaBtn = document.getElementById('toDnaBtn');
+        const toRnaBtn = document.getElementById('toRnaBtn');
         const organismSelect = document.getElementById('organism');
         const gcResultEl = document.getElementById('gc-result');
         const caiResultEl = document.getElementById('cai-result');
@@ -106,14 +210,11 @@
         const caiCard = document.getElementById('cai-card');
 
         // --- Pre-computation ---
-        // Pre-calculate relative adaptiveness (w) values for each organism
         const relativeAdaptiveness = {};
         for (const organism in codonUsageTables) {
             const usage = codonUsageTables[organism];
             const maxFreqPerAA = {};
             const aaToCodons = {};
-
-            // Group codons by AA and find max frequency for each AA
             for (const codon in usage) {
                 const aa = codonToAA[codon];
                 if (!aa) continue;
@@ -126,8 +227,6 @@
                     maxFreqPerAA[aa] = usage[codon];
                 }
             }
-            
-            // Calculate w for each codon
             relativeAdaptiveness[organism] = {};
             for (const aa in aaToCodons) {
                 for (const codon of aaToCodons[aa]) {
@@ -141,102 +240,69 @@
         }
 
         // --- Functions ---
+        function convertToDNA() {
+            const currentSeq = sequenceInput.value;
+            sequenceInput.value = currentSeq.toUpperCase().replace(/U/g, 'T');
+        }
 
-        /**
-         * Cleans and validates the input sequence.
-         * Removes FASTA headers, whitespace, and converts to uppercase.
-         * @param {string} rawSeq - The raw input sequence from the textarea.
-         * @returns {string|null} The cleaned sequence or null if invalid.
-         */
+        function convertToRNA() {
+            const currentSeq = sequenceInput.value;
+            sequenceInput.value = currentSeq.toUpperCase().replace(/T/g, 'U');
+        }
+
         function cleanAndValidateSequence(rawSeq) {
-            // Remove FASTA header if present
             let seq = rawSeq.startsWith('>') ? rawSeq.split('\n').slice(1).join('') : rawSeq;
-            // Remove whitespace and convert to uppercase
             seq = seq.replace(/\s/g, '').toUpperCase();
-            
             if (!seq) {
                 showError("Sequence input is empty.");
                 return null;
             }
-
-            // Validate characters
             if (/[^ATGCU]/.test(seq)) {
                 showError("Sequence contains invalid characters. Only A, T, G, C, U are allowed.");
                 return null;
             }
-
-            // Replace U with T for consistency
             return seq.replace(/U/g, 'T');
         }
 
-        /**
-         * Calculates the GC content of a DNA sequence.
-         * @param {string} seq - The cleaned DNA sequence.
-         * @returns {number} The GC content as a percentage.
-         */
         function calculateGCContent(seq) {
             if (!seq) return 0;
             const gcCount = (seq.match(/[GC]/g) || []).length;
             return (gcCount / seq.length) * 100;
         }
 
-        /**
-         * Calculates the Codon Adaptation Index (CAI).
-         * @param {string} seq - The cleaned DNA sequence.
-         * @param {string} organism - The selected organism key.
-         * @returns {number|null} The CAI value or null if calculation is not possible.
-         */
         function calculateCAI(seq, organism) {
             const w_table = relativeAdaptiveness[organism];
             const codons = [];
-            
-            // Find the first start codon 'ATG'
             const startIndex = seq.indexOf('ATG');
             if (startIndex === -1) {
                 showError("No start codon (ATG) found in the sequence.");
                 return null;
             }
-
-            // Extract codons from start to end, ignoring stop codons
             for (let i = startIndex; i < seq.length - 2; i += 3) {
                 const codon = seq.substring(i, i + 3);
                 if (codon.length !== 3) continue;
-                
                 const aa = codonToAA[codon];
-                if (aa === '*') { // Stop codon
-                    break;
-                }
-                // Exclude Methionine and Tryptophan as they have only one codon
+                if (aa === '*') break;
                 if (aa !== 'M' && aa !== 'W') {
                     codons.push(codon);
                 }
             }
-
             if (codons.length === 0) {
                 showError("No valid codons found for CAI calculation (after excluding start/stop/Met/Trp).");
                 return null;
             }
-
-            // Calculate geometric mean of relative adaptiveness values
             let logSum = 0;
             for (const codon of codons) {
                 const w = w_table[codon];
-                if (w > 0) { // w can be 0, which would make the product 0.
+                if (w > 0) {
                     logSum += Math.log(w);
                 } else {
-                    // Handle codons with zero frequency/adaptiveness.
-                    // A small value is often substituted, but for simplicity, we can log it.
                     console.warn(`Codon ${codon} has a relative adaptiveness of 0.`);
                 }
             }
-            
             return Math.exp(logSum / codons.length);
         }
 
-        /**
-         * Displays an error message to the user.
-         * @param {string} message - The error message to display.
-         */
         function showError(message) {
             errorMessageEl.textContent = message;
             errorMessageEl.classList.remove('hidden');
@@ -244,49 +310,46 @@
             caiCard.classList.remove('visible');
         }
 
-        /**
-         * Hides the error message box.
-         */
         function hideError() {
             errorMessageEl.classList.add('hidden');
         }
-        
-        /**
-         * Main function to handle the analysis process.
-         */
+
         function handleAnalysis() {
             hideError();
             
+            gcCard.classList.remove('visible');
+            caiCard.classList.remove('visible');
+
             const rawSequence = sequenceInput.value;
             const sequence = cleanAndValidateSequence(rawSequence);
             
-            if (!sequence) {
-                return; // Stop if validation failed
-            }
+            if (!sequence) return;
             
             const selectedOrganism = organismSelect.value;
 
-            // --- Calculate and Display GC Content ---
-            const gcContent = calculateGCContent(sequence);
-            gcResultEl.textContent = `${gcContent.toFixed(2)}%`;
-            gcCard.classList.add('visible');
+            setTimeout(() => {
+                const gcContent = calculateGCContent(sequence);
+                gcResultEl.textContent = `${gcContent.toFixed(2)}%`;
+                gcCard.classList.add('visible');
 
-            // --- Calculate and Display CAI ---
-            const caiValue = calculateCAI(sequence, selectedOrganism);
-            if (caiValue !== null) {
-                caiResultEl.textContent = caiValue.toFixed(3);
-                const organismName = organismSelect.options[organismSelect.selectedIndex].text;
-                caiOrganismEl.textContent = `Relative to ${organismName.split('(')[0].trim()}`;
-                caiCard.classList.add('visible');
-            }
+                const caiValue = calculateCAI(sequence, selectedOrganism);
+                if (caiValue !== null) {
+                    caiResultEl.textContent = caiValue.toFixed(3);
+                    const organismName = organismSelect.options[organismSelect.selectedIndex].text;
+                    caiOrganismEl.textContent = `Relative to ${organismName.split('(')[0].trim()}`;
+                    caiCard.classList.add('visible');
+                }
+            }, 300);
         }
 
-        // --- Event Listener ---
+        // --- Event Listeners ---
         calculateBtn.addEventListener('click', handleAnalysis);
+        toDnaBtn.addEventListener('click', convertToDNA);
+        toRnaBtn.addEventListener('click', convertToRNA);
         
         // --- Initial Example ---
         sequenceInput.value = `atgttcagctttgtggacctccggctcctgctcctcttagcggccaccgccctcctgacgcacggccaagaggaaggccaagtcgagggccaagacgaagacatcccaccaatcacctgcgtacagaacggcctcaggtaccatgaccgagacgtgtggaaacccgagccctgccggatctgcgtctgcgacaacggcaaggtgttgtgcgatgacgtgatctgtgacgagaccaagaactgccccggcgccgaagtccccgagggcgagtgctgtcccgtctgccccgacggctcagagtcacccaccgaccaagaaaccaccggcgtcgagggacccaagggagacactggcccccgaggcccaaggggacccgcaggcccccctggccgagatggcatccctggacagcctggacttcccggaccccccggaccccccggacctcccggaccccctggcctcggaggaaactttgctccccagctgtcttatggctatgatgagaaatcaaccggaggaatttccgtgcctggccccatgggtccctctggtcctcgtggtctccctggcccccctggtgcacctggtccccaaggcttccaaggtccccctggtgagcctggcgagcctggagcttcaggtcccatgggtccccgaggtcccccaggtccccctggaaagaatggagatgatggggaagctggaaaacctggtcgtcctggtgagcgtgggcctcctgggcctcagggtgctcgaggattgcccggaacagctggcctccctggaatgaagggacacagaggtttcaTAA`;
-        handleAnalysis(); // Run analysis on the default sequence on page load
+        handleAnalysis();
 
     </script>
 </body>
