@@ -52,82 +52,48 @@
         }
         
         /* Light Theme */
-        body.theme-light {
-            background-color: var(--light-bg);
-            color: var(--light-text-body);
-        }
-        body.theme-light .main-container {
-            background-color: var(--light-surface);
-            border: 1px solid var(--light-border);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        }
+        body.theme-light { background-color: var(--light-bg); color: var(--light-text-body); }
+        body.theme-light .main-container { background-color: var(--light-surface); border: 1px solid var(--light-border); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); }
         body.theme-light .header-text { color: var(--light-text-header); }
         body.theme-light .subheader-text, body.theme-light .label-text { color: var(--light-text-subtle); }
-        body.theme-light .input-field {
-            background-color: var(--light-surface);
-            border-color: var(--light-border);
-            color: var(--light-text-body);
-            --tw-ring-color: var(--light-primary);
-        }
-        body.theme-light .secondary-button {
-            background-color: var(--light-button-secondary-bg);
-            color: var(--light-text-body);
-        }
+        body.theme-light .input-field { background-color: var(--light-surface); border-color: var(--light-border); color: var(--light-text-body); --tw-ring-color: var(--light-primary); }
+        body.theme-light .secondary-button { background-color: var(--light-button-secondary-bg); color: var(--light-text-body); }
         body.theme-light .primary-button { background-color: var(--light-primary); color: white; }
         body.theme-light .error-box { background-color: var(--light-error-bg); color: var(--light-error-text); }
         body.theme-light .result-card { background-color: var(--light-bg); border-color: var(--light-border); }
         body.theme-light .gc-text { color: var(--light-secondary); }
         body.theme-light .cai-text { color: var(--light-accent); }
         body.theme-light #theme-toggle { color: var(--light-text-header); }
+        body.theme-light .results-table th { background-color: #eef2f7; }
+        body.theme-light .results-table tr:nth-child(even) { background-color: #f8fafc; }
 
         /* Dark Theme */
-        body.theme-dark {
-            background-color: var(--dark-bg);
-            color: var(--dark-text-body);
-        }
-        body.theme-dark .main-container {
-            background-color: var(--dark-surface);
-            border: 1px solid var(--dark-border);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
+        body.theme-dark { background-color: var(--dark-bg); color: var(--dark-text-body); }
+        body.theme-dark .main-container { background-color: var(--dark-surface); border: 1px solid var(--dark-border); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); }
         body.theme-dark .header-text { color: var(--dark-text-header); }
         body.theme-dark .subheader-text, body.theme-dark .label-text { color: var(--dark-text-subtle); }
-        body.theme-dark .input-field {
-            background-color: var(--dark-bg);
-            border-color: var(--dark-border);
-            color: var(--dark-text-body);
-            --tw-ring-color: var(--dark-primary);
-        }
-        body.theme-dark .secondary-button {
-            background-color: var(--dark-button-secondary-bg);
-            color: var(--dark-text-header);
-        }
+        body.theme-dark .input-field { background-color: var(--dark-bg); border-color: var(--dark-border); color: var(--dark-text-body); --tw-ring-color: var(--dark-primary); }
+        body.theme-dark .secondary-button { background-color: var(--dark-button-secondary-bg); color: var(--dark-text-header); }
         body.theme-dark .primary-button { background-color: var(--dark-primary); color: var(--dark-bg); }
         body.theme-dark .error-box { background-color: var(--dark-error-bg); color: var(--dark-error-text); }
         body.theme-dark .result-card { background-color: var(--dark-surface); border-color: var(--dark-border); }
         body.theme-dark .gc-text { color: var(--dark-primary); }
         body.theme-dark .cai-text { color: var(--dark-secondary); }
         body.theme-dark #theme-toggle { color: var(--dark-text-header); }
+        body.theme-dark .results-table th { background-color: #4a5568; }
+        body.theme-dark .results-table tr:nth-child(even) { background-color: #2d3748; }
 
         /* * ==============================================
          * Component Styles
          * ==============================================
          */
-        .main-container {
-            transition: background-color 0.3s, border-color 0.3s;
-            max-height: 95vh;
-            overflow-y: auto;
-        }
-        .result-card {
-            border: 1px solid;
-            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-            transform: scale(0.95) translateY(20px);
-            opacity: 0;
-        }
-        .result-card.visible {
-            transform: scale(1) translateY(0);
-            opacity: 1;
-        }
+        .main-container { transition: background-color 0.3s, border-color 0.3s; max-height: 95vh; overflow-y: auto; }
+        .result-card { border: 1px solid; transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1); transform: scale(0.95) translateY(20px); opacity: 0; }
+        .result-card.visible { transform: scale(1) translateY(0); opacity: 1; }
+        .results-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        .results-table th, .results-table td { padding: 0.75rem; text-align: left; border-bottom: 1px solid; }
+        body.theme-light .results-table th, body.theme-light .results-table td { border-color: var(--light-border); }
+        body.theme-dark .results-table th, body.theme-dark .results-table td { border-color: var(--dark-border); }
 
         /* Custom scrollbar */
         .main-container::-webkit-scrollbar { width: 8px; }
@@ -160,11 +126,30 @@
         <!-- Input Section -->
         <div>
             <label for="sequence" class="block text-sm font-medium mb-2 label-text">Enter Sequence (FASTA or Raw)</label>
-            <textarea id="sequence" rows="10" class="w-full p-4 border rounded-lg placeholder-gray-400 focus:ring-2 transition duration-150 input-field"></textarea>
+            <textarea id="sequence" rows="8" class="w-full p-4 border rounded-lg placeholder-gray-400 focus:ring-2 transition duration-150 input-field"></textarea>
+        </div>
+
+        <!-- CSV Input Section -->
+        <div class="mt-4 p-4 border rounded-lg input-field">
+            <h3 class="text-lg font-semibold header-text mb-3">Or Import from CSV for Batch Analysis</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
+                <div>
+                    <label for="sequence-column-input" class="block text-sm font-medium mb-1 label-text">Sequence Column Name</label>
+                    <input type="text" id="sequence-column-input" placeholder="e.g., 'sequence'" class="w-full p-2 border rounded-lg input-field">
+                </div>
+                 <div>
+                    <label for="id-column-input" class="block text-sm font-medium mb-1 label-text">Identifier Column Name</label>
+                    <input type="text" id="id-column-input" placeholder="e.g., 'gene_id'" class="w-full p-2 border rounded-lg input-field">
+                </div>
+            </div>
+             <div class="mt-4">
+                <label for="csv-file-input" class="block text-sm font-medium mb-1 label-text">Upload CSV File</label>
+                <input type="file" id="csv-file-input" accept=".csv" class="w-full text-sm rounded-lg file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold secondary-button cursor-pointer">
+            </div>
         </div>
 
         <!-- Conversion Buttons -->
-        <div class="mt-4 flex justify-center space-x-4">
+        <div class="mt-6 flex justify-center space-x-4">
             <button id="toDnaBtn" class="font-semibold py-2 px-4 rounded-lg transition-colors duration-200 flex items-center space-x-2 secondary-button">
                 <i class="fas fa-dna"></i><span>Convert to DNA (T)</span>
             </button>
@@ -186,7 +171,7 @@
         <!-- Action Button -->
         <div class="mt-8 text-center">
             <button id="calculateBtn" class="font-bold py-3 px-8 rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-300 ease-in-out primary-button">
-                Analyze Sequence
+                Analyze Single Sequence
             </button>
         </div>
 
@@ -194,7 +179,7 @@
         <div id="error-message" class="mt-6 p-4 rounded-lg hidden error-box"></div>
 
         <!-- Results Section -->
-        <div id="results" class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div id="results-single" class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- GC Content Card -->
             <div id="gc-card" class="result-card p-6 rounded-lg">
                 <h3 class="text-lg font-semibold header-text">GC Content</h3>
@@ -207,6 +192,17 @@
                 <p id="cai-result" class="text-4xl font-bold mt-2 cai-text">0.000</p>
                 <p id="cai-organism" class="text-sm mt-1 subheader-text">Relative to Human</p>
             </div>
+        </div>
+
+        <!-- CSV Batch Results Section -->
+        <div id="results-batch" class="mt-8 hidden">
+             <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl font-bold header-text">Batch Analysis Results</h2>
+                <button id="clear-batch-results-btn" class="font-semibold py-2 px-4 rounded-lg transition-colors duration-200 flex items-center space-x-2 secondary-button">
+                    <i class="fas fa-times"></i><span>Clear Results</span>
+                </button>
+            </div>
+            <div id="results-table-container" class="overflow-x-auto"></div>
         </div>
     </div>
 
@@ -222,6 +218,9 @@
                 themeIcon: document.getElementById('theme-icon'),
                 body: document.body,
                 sequenceInput: document.getElementById('sequence'),
+                csvFileInput: document.getElementById('csv-file-input'),
+                sequenceColumnInput: document.getElementById('sequence-column-input'),
+                idColumnInput: document.getElementById('id-column-input'),
                 calculateBtn: document.getElementById('calculateBtn'),
                 toDnaBtn: document.getElementById('toDnaBtn'),
                 toRnaBtn: document.getElementById('toRnaBtn'),
@@ -231,7 +230,11 @@
                 caiOrganismEl: document.getElementById('cai-organism'),
                 errorMessageEl: document.getElementById('error-message'),
                 gcCard: document.getElementById('gc-card'),
-                caiCard: document.getElementById('cai-card')
+                caiCard: document.getElementById('cai-card'),
+                resultsSingle: document.getElementById('results-single'),
+                resultsBatch: document.getElementById('results-batch'),
+                resultsTableContainer: document.getElementById('results-table-container'),
+                clearBatchResultsBtn: document.getElementById('clear-batch-results-btn'),
             };
 
             // --- Codon & Amino Acid Data ---
@@ -285,10 +288,11 @@
             const convertToRNA = () => { dom.sequenceInput.value = dom.sequenceInput.value.toUpperCase().replace(/T/g, 'U'); };
 
             const cleanAndValidateSequence = (rawSeq) => {
+                if (!rawSeq || typeof rawSeq !== 'string') return null;
                 let seq = rawSeq.startsWith('>') ? rawSeq.split('\n').slice(1).join('') : rawSeq;
                 seq = seq.replace(/\s/g, '').toUpperCase();
-                if (!seq) { showError("Sequence input is empty."); return null; }
-                if (/[^ATGCU]/.test(seq)) { showError("Sequence contains invalid characters. Only A, T, G, C, U are allowed."); return null; }
+                if (!seq) return null;
+                if (/[^ATGCU]/.test(seq)) return null;
                 return seq.replace(/U/g, 'T');
             };
 
@@ -302,7 +306,7 @@
                 const w_table = relativeAdaptiveness[organism];
                 const codons = [];
                 const startIndex = seq.indexOf('ATG');
-                if (startIndex === -1) { showError("No start codon (ATG) found in the sequence."); return null; }
+                if (startIndex === -1) return null;
                 for (let i = startIndex; i < seq.length - 2; i += 3) {
                     const codon = seq.substring(i, i + 3);
                     if (codon.length !== 3) continue;
@@ -310,12 +314,11 @@
                     if (aa === '*') break;
                     if (aa !== 'M' && aa !== 'W') codons.push(codon);
                 }
-                if (codons.length === 0) { showError("No valid codons found for CAI calculation (after excluding start/stop/Met/Trp)."); return null; }
+                if (codons.length === 0) return null;
                 let logSum = 0;
                 for (const codon of codons) {
                     const w = w_table[codon];
                     if (w > 0) logSum += Math.log(w);
-                    else console.warn(`Codon ${codon} has a relative adaptiveness of 0.`);
                 }
                 return Math.exp(logSum / codons.length);
             };
@@ -328,14 +331,24 @@
             };
 
             const hideError = () => { dom.errorMessageEl.classList.add('hidden'); };
+            
+            const clearBatchResults = () => {
+                dom.resultsBatch.classList.add('hidden');
+                dom.resultsTableContainer.innerHTML = '';
+            };
 
-            const handleAnalysis = () => {
+            const handleSingleAnalysis = () => {
                 hideError();
+                clearBatchResults();
+                dom.resultsSingle.classList.remove('hidden');
                 dom.gcCard.classList.remove('visible');
                 dom.caiCard.classList.remove('visible');
                 const rawSequence = dom.sequenceInput.value;
                 const sequence = cleanAndValidateSequence(rawSequence);
-                if (!sequence) return;
+                if (!sequence) {
+                    showError("Sequence for analysis is invalid or empty.");
+                    return;
+                }
                 const selectedOrganism = dom.organismSelect.value;
                 setTimeout(() => {
                     const gcContent = calculateGCContent(sequence);
@@ -347,16 +360,100 @@
                         const organismName = dom.organismSelect.options[dom.organismSelect.selectedIndex].text;
                         dom.caiOrganismEl.textContent = `Relative to ${organismName.split('(')[0].trim()}`;
                         dom.caiCard.classList.add('visible');
+                    } else {
+                        showError("Could not calculate CAI. Ensure the sequence has a start codon and valid coding regions.");
                     }
                 }, 300);
+            };
+            
+            // ==============================================
+            // CSV Import Logic
+            // ==============================================
+            const handleCsvUpload = (event) => {
+                const file = event.target.files[0];
+                if (!file) return;
+
+                const seqColName = dom.sequenceColumnInput.value.trim();
+                const idColName = dom.idColumnInput.value.trim();
+                if (!seqColName) {
+                    showError("Please enter the Sequence Column Name.");
+                    dom.csvFileInput.value = '';
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const text = e.target.result;
+                    try {
+                        const rows = text.split(/\r?\n/).filter(row => row.trim() !== '');
+                        if (rows.length < 2) throw new Error("CSV file must have a header and at least one data row.");
+
+                        const header = rows[0].split(',').map(h => h.trim());
+                        const seqColIndex = header.findIndex(h => h.toLowerCase() === seqColName.toLowerCase());
+                        if (seqColIndex === -1) throw new Error(`Sequence column '${seqColName}' not found.`);
+                        
+                        const idColIndex = idColName ? header.findIndex(h => h.toLowerCase() === idColName.toLowerCase()) : -1;
+                        if (idColName && idColIndex === -1) throw new Error(`Identifier column '${idColName}' not found.`);
+
+                        const selectedOrganism = dom.organismSelect.value;
+                        const results = [];
+                        
+                        for (let i = 1; i < rows.length; i++) {
+                            const data = rows[i].split(',');
+                            const identifier = idColIndex !== -1 ? data[idColIndex] : `Row ${i + 1}`;
+                            const rawSequence = data[seqColIndex];
+                            const sequence = cleanAndValidateSequence(rawSequence);
+                            
+                            if (sequence) {
+                                const gcContent = calculateGCContent(sequence);
+                                const caiValue = calculateCAI(sequence, selectedOrganism);
+                                results.push({ identifier, gcContent, caiValue });
+                            } else {
+                                results.push({ identifier, gcContent: 'Invalid', caiValue: 'Invalid' });
+                            }
+                        }
+                        
+                        displayBatchResults(results);
+                        hideError();
+
+                    } catch (error) {
+                        showError(`CSV Parsing Error: ${error.message}`);
+                    } finally {
+                        dom.csvFileInput.value = '';
+                    }
+                };
+                reader.onerror = () => showError("Failed to read the uploaded file.");
+                reader.readAsText(file);
+            };
+
+            const displayBatchResults = (results) => {
+                dom.resultsSingle.classList.add('hidden');
+                dom.resultsBatch.classList.remove('hidden');
+                
+                let tableHTML = '<table class="results-table"><thead><tr><th>Identifier</th><th>GC Content (%)</th><th>CAI</th></tr></thead><tbody>';
+                results.forEach(res => {
+                    tableHTML += `<tr>
+                        <td>${res.identifier}</td>
+                        <td>${typeof res.gcContent === 'number' ? res.gcContent.toFixed(2) : res.gcContent}</td>
+                        <td>${typeof res.caiValue === 'number' ? res.caiValue.toFixed(3) : res.caiValue}</td>
+                    </tr>`;
+                });
+                tableHTML += '</tbody></table>';
+                
+                dom.resultsTableContainer.innerHTML = tableHTML;
             };
 
             // ==============================================
             // Event Listeners & Initialization
             // ==============================================
-            dom.calculateBtn.addEventListener('click', handleAnalysis);
+            dom.calculateBtn.addEventListener('click', handleSingleAnalysis);
             dom.toDnaBtn.addEventListener('click', convertToDNA);
             dom.toRnaBtn.addEventListener('click', convertToRNA);
+            dom.csvFileInput.addEventListener('change', handleCsvUpload);
+            dom.clearBatchResultsBtn.addEventListener('click', () => {
+                clearBatchResults();
+                dom.resultsSingle.classList.remove('hidden');
+            });
             
             // --- Set Initial Theme ---
             const savedTheme = localStorage.getItem('theme');
@@ -364,8 +461,8 @@
             applyTheme(savedTheme || (prefersDark ? 'dark' : 'light'));
 
             // --- Set Initial Example & Run ---
-            dom.sequenceInput.value = `atgttcagctttgtggacctccggctcctgctcctcttagcggccaccgccctcctgacgcacggccaagaggaaggccaagtcgagggccaagacgaagacatcccaccaatcacctgcgtacagaacggcctcaggtaccatgaccgagacgtgtggaaacccgagccctgccggatctgcgtctgcgacaacggcaaggtgttgtgcgatgacgtgatctgtgacgagaccaagaactgccccggcgccgaagtccccgagggcgagtgctgtcccgtctgccccgacggctcagagtcacccaccgaccaagaaaccaccggcgtcgagggacccaagggagacactggcccccgaggcccaaggggacccgcaggcccccctggccgagatggcatccctggacagcctggacttcccggaccccccggaccccccggacctcccggaccccctggcctcggaggaaactttgctccccagctgtcttatggctatgatgagaaatcaaccggaggaatttccgtgcctggccccatgggtccctctggtcctcgtggtctccctggcccccctggtgcacctggtccccaaggcttccaaggtccccctggtgagcctggcgagcctggagcttcaggtcccatgggtccccgaggtcccccaggtccccctggaaagaatggagatgatggggaagctggaaaacctggtcgtcctggtgagcgtgggcctcctgggcctcagggtgctcgaggattgcccggaacagctggcctccctggaatgaagggacacagaggtttcaTAA`;
-            handleAnalysis();
+            dom.sequenceInput.value = `Put your sequence here!`;
+            handleSingleAnalysis();
         });
 
     </script>
